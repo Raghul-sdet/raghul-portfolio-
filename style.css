@@ -181,11 +181,48 @@ ul{ margin:0; padding:0; list-style:none; }
   flex-wrap:wrap;
   gap:8px;
   align-items:center;
-  margin-bottom:38px;
+  margin-bottom:24px;
 }
 .hero-contact a{ color:var(--text); }
 .hero-contact a:hover{ color:var(--info); }
 .sep{ color:var(--text-dim); }
+
+.icon-link{
+  display:inline-flex;
+  align-items:center;
+  color:var(--text-muted);
+  transition:color 0.2s;
+}
+.icon-link:hover{
+  color:var(--info);
+}
+.icon-link svg{
+  display:block;
+}
+
+.hero-actions{
+  margin-bottom:38px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-family:var(--font-display);
+  font-size:13px;
+  font-weight:600;
+  padding:8px 16px;
+  border-radius:6px;
+  transition:background 0.2s, border-color 0.2s, color 0.2s;
+}
+.btn:hover{
+  background:var(--panel-2);
+  border-color:var(--info);
+  color:var(--info);
+  text-decoration:none;
+}
 
 .status-grid{
   display:flex;
@@ -390,6 +427,12 @@ ul{ margin:0; padding:0; list-style:none; }
   font-family:var(--font-display);
   font-size:12.5px;
   color:var(--text-dim);
+}
+.footer-links{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
 }
 .footer-links a{ color:var(--text-muted); }
 .footer-links a:hover{ color:var(--info); }
