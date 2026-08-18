@@ -9,6 +9,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+  (function() {
+    var saved = localStorage.getItem('theme-preference');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else if (saved === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
 </head>
 <body>
 
@@ -17,8 +29,17 @@
 <header class="hero">
   <div class="wrap">
     <div class="hero-top">
-      <span class="eyebrow"><span class="dot dot-ok" aria-hidden="true"></span>STATUS: OPEN TO WORK</span>
-      <span class="uptime-chip">SITE UPTIME SLA <strong>99.99%</strong><span class="uptime-sub">Aug–Dec 2025</span></span>
+      <div class="hero-top-left">
+        <span class="eyebrow"><span class="dot dot-ok" aria-hidden="true"></span>STATUS: OPEN TO WORK</span>
+        <span class="uptime-chip">SITE UPTIME SLA <strong>99.99%</strong><span class="uptime-sub">Aug–Dec 2025</span></span>
+      </div>
+      <div class="theme-toggle" aria-label="Theme preference">
+        <button class="theme-btn" data-theme-btn="light">Light</button>
+        <span class="sep">/</span>
+        <button class="theme-btn" data-theme-btn="dark">Dark</button>
+        <span class="sep">/</span>
+        <button class="theme-btn is-active" data-theme-btn="system">Auto</button>
+      </div>
     </div>
 
     <h1 class="hero-name">RAGHUL <span class="cursor">L</span></h1>

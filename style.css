@@ -2,15 +2,42 @@
    TOKENS
    =================================================================== */
 :root{
-  --bg:            #0A0E13;
-  --bg-alt:        #0D1218;
-  --panel:         #121821;
-  --panel-2:       #161D27;
-  --border:        #232C38;
-  --border-soft:   #1A2129;
-  --text:          #E4EBF1;
-  --text-muted:    #8592A3;
-  --text-dim:      #566175;
+  /* LIGHT THEME (Editorial) */
+  --bg:            #F7F5F1;
+  --bg-alt:        #EFECE5;
+  --panel:         #FFFFFF;
+  --panel-2:       #F0F0F0;
+  --border:        #E0DDD6;
+  --border-soft:   #EBE8E0;
+  --text:          #1C1B19;
+  --text-muted:    #565551;
+  --text-dim:      #8A8883;
+
+  --ok:            #059669;
+  --ok-dim:        #D1FAE5;
+  --info:          #0284C7;
+  --info-dim:      #E0F2FE;
+  --warn:          #D97706;
+  --warn-dim:      #FEF3C7;
+  --alert:         #DC2626;
+
+  --font-display:  'IBM Plex Mono', ui-monospace, monospace;
+  --font-body:     'IBM Plex Sans', -apple-system, sans-serif;
+
+  --max: 920px;
+}
+
+[data-theme="dark"] {
+  /* DARK THEME */
+  --bg:            #161513;
+  --bg-alt:        #1A1917;
+  --panel:         #1E1C1A;
+  --panel-2:       #24221F;
+  --border:        #33312E;
+  --border-soft:   #252320;
+  --text:          #EDEAE4;
+  --text-muted:    #A3A09A;
+  --text-dim:      #6E6C68;
 
   --ok:            #34D399;
   --ok-dim:        #0F2A22;
@@ -19,11 +46,21 @@
   --warn:          #F5B84E;
   --warn-dim:      #2E2410;
   --alert:         #F0616B;
+}
 
-  --font-display:  'IBM Plex Mono', ui-monospace, monospace;
-  --font-body:     'IBM Plex Sans', -apple-system, sans-serif;
-
-  --max: 920px;
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, fill 0.15s ease, stroke 0.15s ease !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition: none !important;
+  }
 }
 
 *{ box-sizing:border-box; }
@@ -116,6 +153,40 @@ ul{ margin:0; padding:0; list-style:none; }
   flex-wrap:wrap;
   gap:12px;
   margin-bottom:28px;
+}
+
+.hero-top-left{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.theme-toggle{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-family:var(--font-display);
+  font-size:12px;
+  color:var(--text-dim);
+}
+.theme-btn{
+  background:none;
+  border:none;
+  padding:0;
+  font-family:inherit;
+  font-size:inherit;
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:color 0.15s ease;
+}
+.theme-btn:hover{
+  color:var(--text);
+}
+.theme-btn.is-active{
+  color:var(--text);
+  font-weight:600;
+  text-decoration:underline;
 }
 
 .eyebrow{
