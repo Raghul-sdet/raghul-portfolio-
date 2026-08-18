@@ -1,85 +1,36 @@
-// Reveal elements as they enter the viewport.
 (function () {
-  var items = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window) || !items.length) {
-    items.forEach(function (el) { el.classList.add('in'); });
-    return;
+  var root = document.documentElement;
+  var buttons = document.querySelectorAll('[data-theme-choice]');
+  var mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function resolve(pref) {
+    if (pref === 'system') return mql.matches ? 'dark' : 'light';
+    return pref;
   }
 
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );
-
-  items.forEach(function (el) { observer.observe(el); });
-})();
-
-// Theme switcher logic
-document.addEventListener("DOMContentLoaded", function () {
-  var html = document.documentElement;
-  var themeBtns = document.querySelectorAll('.theme-btn');
-
-  // Prevent transition on initial load
-  setTimeout(function () {
-    html.classList.add('theme-transition');
-  }, 100);
-
-  function getSavedTheme() {
-    return localStorage.getItem('theme-preference') || 'system';
-  }
-
-  function applyTheme(theme) {
-    if (theme === 'dark') {
-      html.setAttribute('data-theme', 'dark');
-    } else if (theme === 'light') {
-      html.setAttribute('data-theme', 'light');
-    } else {
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        html.setAttribute('data-theme', 'dark');
-      } else {
-        html.setAttribute('data-theme', 'light');
-      }
-    }
-
-    // Update active state on buttons
-    themeBtns.forEach(function (btn) {
-      if (btn.getAttribute('data-theme-btn') === theme) {
-        btn.classList.add('is-active');
-      } else {
-        btn.classList.remove('is-active');
-      }
+  function apply(pref) {
+    root.setAttribute('data-theme-pref', pref);
+    root.setAttribute('data-theme', resolve(pref));
+    buttons.forEach(function (btn) {
+      btn.setAttribute('aria-current', btn.getAttribute('data-theme-choice') === pref ? 'true' : 'false');
     });
   }
 
-  // Initialize button states
-  applyTheme(getSavedTheme());
-
-  themeBtns.forEach(function (btn) {
+  buttons.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var selectedTheme = btn.getAttribute('data-theme-btn');
-      if (selectedTheme === 'system') {
-        localStorage.removeItem('theme-preference');
-      } else {
-        localStorage.setItem('theme-preference', selectedTheme);
-      }
-      applyTheme(selectedTheme);
+      var choice = btn.getAttribute('data-theme-choice');
+      localStorage.setItem('theme-preference', choice);
+      apply(choice);
     });
   });
 
-  // Listen for system theme changes
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
-      if (!localStorage.getItem('theme-preference')) {
-        applyTheme('system');
-      }
-    });
-  }
-});
+  // Keep in sync with OS changes while the user hasn't made an explicit choice.
+  mql.addEventListener('change', function () {
+    if (root.getAttribute('data-theme-pref') === 'system') {
+      root.setAttribute('data-theme', resolve('system'));
+    }
+  });
 
+  // Initialize button states to match what the inline head script already set.
+  apply(root.getAttribute('data-theme-pref') || 'system');
+})();
